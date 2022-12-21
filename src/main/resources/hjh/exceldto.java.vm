@@ -1,0 +1,31 @@
+package ${packageName}.model;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import com.leesky.ezframework.mybatis.model.BaseUuidModel;
+import lombok.Getter;
+import lombok.Setter;
+import java.io.Serializable;
+
+/**
+ * ${functionName}数据导出对象 ${tableName}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Getter
+@Setter
+public class ${className}ExcelDTO implements Serializable{
+
+    private static final long serialVersionUID = -1L;
+
+#foreach ($column in $columns)
+    /** $column.columnComment */
+    @ExcelProperty(value = "$column.columnComment")
+    private String $column.javaField;
+#end
+
+    public ${className}ExcelDTO (){}
+
+}

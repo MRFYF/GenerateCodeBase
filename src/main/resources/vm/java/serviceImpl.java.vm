@@ -1,0 +1,99 @@
+package ${packageName}.service.impl;
+
+import cn.cxyfyf.base.framework.utils.BeanConvertUtil;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.time.LocalDateTime;
+
+/**
+ * ${functionName}Service业务层处理
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RequiredArgsConstructor
+@Service
+public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements I${className}Service {
+
+    private final ${className}Mapper mapper;
+
+    /**
+     * 分页列表查询
+     * @param to to
+     * @return 分页列表
+     */
+    @Override
+    public Page<${className}> selectListByPage(${className}To to) {
+        Page<${className}> page = TableSupport.getPage();
+        ${className} entity = BeanConvertUtil.convertor(to, ${className}.class);
+        return mapper.selectListByPage(page, entity);
+    }
+
+    /**
+     * 根据ID获取详细信息
+     * @param id id
+     * @return 详细信息
+     */
+    @Override
+    public AjaxResult getInfo($pkColumn.javaType id) {
+        return AjaxResult.success(this.getById(id));
+    }
+
+    /**
+     * 新增
+     * @param to to
+     * @return result
+     */
+    @Override
+    public AjaxResult add(${className}To to) {
+        ${className} entity = BeanConvertUtil.convertor(to, ${className}.class);
+        entity.setUpdateBy(SecurityUtils.getUserIdString());
+        return AjaxResult.success(this.save(entity));
+    }
+
+    /**
+     * 修改
+     * @param to to
+     * @return result
+     */
+    @Override
+    public AjaxResult edit(${className}To to) {
+        ${className} entity = BeanConvertUtil.convertor(to, ${className}.class);
+        entity.setUpdateBy(SecurityUtils.getUserIdString());
+        return AjaxResult.success(this.updateById(entity));
+    }
+
+    /**
+     * 根据ID修改状态
+     * @param id id
+     * @param status 状态
+     * @return result
+     */
+    @Override
+    public AjaxResult editStatus($pkColumn.javaType id, Integer status) {
+        UpdateWrapper<${className}> wrapper = new UpdateWrapper<>();
+        wrapper.set("status", status);
+        wrapper.set("update_by", SecurityUtils.getUserId());
+        wrapper.set("update_time", LocalDateTime.now());
+        wrapper.eq("id", id);
+        return AjaxResult.success(this.update(wrapper));
+    }
+
+    /**
+     * 根据ID逻辑删除
+     * @param id id
+     * @return result
+     */
+    @Override
+    public AjaxResult delete($pkColumn.javaType id) {
+        UpdateWrapper<${className}> wrapper = new UpdateWrapper<>();
+        wrapper.set("del_falg", 2);
+        wrapper.set("update_by", SecurityUtils.getUserId());
+        wrapper.set("update_time", LocalDateTime.now());
+        wrapper.eq("id", id);
+        return AjaxResult.success(this.update(wrapper));
+    }
+
+}

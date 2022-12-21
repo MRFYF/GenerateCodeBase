@@ -1,0 +1,11 @@
+package ${packageName}.mapper;
+import com.leesky.ezframework.mybatis.mapper.IeeskyMapper;
+
+/**
+ * ${functionName}Mapper接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${classNameFirst}Mapper extends IeeskyMapper<${className}Model> {
+}

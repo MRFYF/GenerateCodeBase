@@ -1,0 +1,21 @@
+package ${packageName}.impl;
+
+import com.leesky.ezframework.mybatis.service.impl.LeeskyServiceImpl;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+
+/**
+ * ${functionName}Service业务层处理
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+@RequiredArgsConstructor
+public class ${className}ServiceImpl extends LeeskyServiceImpl<I${classNameFirst}Mapper, ${className}Model> implements I${classNameFirst}Service{
+
+
+}
+

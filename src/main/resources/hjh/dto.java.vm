@@ -1,0 +1,55 @@
+package ${packageName}.model;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.leesky.ezframework.mybatis.model.BaseUuidModel;
+import lombok.Getter;
+import lombok.Setter;
+import java.io.Serializable;
+
+/**
+ * ${functionName}数据传输对象 ${tableName}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class ${className}DTO extends BaseDTO{
+#set($cxclude = ["id", "createDate", "modifyDate"])
+
+    private static final long serialVersionUID = -1L;
+
+#foreach ($column in $columns)
+#if(!$cxclude.contains($column.javaField))
+    /** $column.columnComment */
+#if($column.javaType == 'Date')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+#end
+    private $column.javaType $column.javaField;
+#end
+#end
+
+    public ${className}DTO (){}
+
+    /**
+     * 判断不能为空
+     * @param to 接收对象
+     * @param fields 需要校验的字符串 例 id,name
+     */
+    public static void judgeParam(${className}DTO to, String fields){
+        List<String> fieldList = Arrays.stream(fields.split(",")).filter(StringUtils::isNotEmpty).map(String::trim).distinct().collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(fieldList)) return;
+#foreach ($column in $columns)
+#if($column.javaType != 'String')
+        if (fieldList.contains("$column.javaField") && Objects.isNull(to.get$column.javaFirstField ())) throw new NullPointerException("$column.columnComment 不能为空");
+#else
+        if (fieldList.contains("$column.javaField") && StringUtils.isEmpty(to.get$column.javaFirstField ())) throw new NullPointerException("$column.columnComment 不能为空");
+#end
+#end
+    }
+
+}

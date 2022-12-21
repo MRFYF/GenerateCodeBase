@@ -1,0 +1,38 @@
+package ${packageName}.domain;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import java.io.Serializable;
+
+import cn.cxyfyf.base.framework.web.domain.BaseDTO;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * ${functionName}传输对象 ${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class ${className}Vo extends BaseDTO {
+#set($cxclude = ["id", "createBy", "createTime", "updateBy", "updateTime"])
+
+private static final long serialVersionUID = -1L;
+
+#foreach ($column in $columns)
+#if(!$cxclude.contains($column.javaField))
+    /** $column.columnComment */
+#if($column.javaType == 'Date')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+#end
+    private $column.javaType $column.javaField;
+#end
+#end
+
+    public ${className}Vo (){}
+}

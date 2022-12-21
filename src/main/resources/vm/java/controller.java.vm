@@ -1,0 +1,92 @@
+package ${packageName}.controller;
+
+import cn.cxyfyf.base.framework.utils.BeanConvertUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * ${functionName}Controller
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/${moduleName}/${businessName}")
+public class ${className}Controller extends BaseController
+{
+    private final I${className}Service service;
+
+    /**
+     * 查询${functionName}分页列表
+     * @param to to
+     * @return AjaxResult
+     */
+    @PostMapping("/list")
+    public TableDataInfo list(@RequestBody ${className}To to){
+        Page<${className}> page = service.selectListByPage(to);
+        // 转换为vo用来数据传输
+        List<${className}Vo> vos = BeanConvertUtil.convertor(page.getRecords(), ${className}Vo.class);
+        return pageToDataTable(page.getTotal(), vos);
+    }
+
+    /**
+     * 获取${functionName}详细信息
+     * @param ${pkColumn.javaField}
+     * @return AjaxResult
+     */
+    @GetMapping("/getInfo/{${pkColumn.javaField}}")
+    public AjaxResult getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}){
+        return service.getInfo(id);
+    }
+
+    /**
+     * 新增${functionName}
+     * @param to to
+     * @return AjaxResult
+     */
+    @PostMapping("/add")
+    public AjaxResult add(@RequestBody ${className}To to){
+        ${className}To.judgeParam(to, "${fieldsStr}");
+        return service.add(to);
+    }
+
+    /**
+     * 修改${functionName}
+     * @param to id
+     * @return AjaxResult
+     */
+    @PutMapping("/edit")
+    public AjaxResult edit(@RequestBody ${className}To to){
+        ${className}To.judgeParam(to, "${fieldsStr}");
+        return service.edit(to);
+    }
+
+    /**
+     * 根据ID修改状态
+     * @param id id
+     * @param status status
+     * @return AjaxResult
+     */
+    @PutMapping("/edit/{id}/{status}")
+    public AjaxResult edit(@PathVariable ${pkColumn.javaType} id, @PathVariable Integer status){
+        if (Objects.isNull(id)) return AjaxResult.error("参数异常！");
+        if (StringUtils.isNull(status)) return AjaxResult.error("参数异常！");
+        return service.editStatus(id, status);
+    }
+
+    /**
+     * 根据ID逻辑删除（批量和单个）
+     * @param id id
+     * @return AjaxResult
+     */
+    @DeleteMapping("/delete/{id}")
+    public AjaxResult delete(@PathVariable ${pkColumn.javaType} id){
+        if (Objects.isNull(id)) return AjaxResult.error("参数异常！");
+        return service.delete(id);
+    }
+}

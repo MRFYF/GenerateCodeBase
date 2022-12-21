@@ -1,0 +1,13 @@
+package ${className}.service;
+import com.leesky.ezframework.mybatis.service.IeeskyService;
+
+
+
+/**
+ * ${functionName}Service接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${classNameFirst}Service extends IeeskyService<${className}Model> {
+}

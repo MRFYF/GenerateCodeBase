@@ -1,0 +1,111 @@
+package ${packageName}.action;
+
+import cn.cxyfyf.base.utils.StringUtils;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.leesky.ezframework.es.annotation.SysLogAction;
+import com.leesky.ezframework.es.annotation.SysLogger;
+import com.leesky.ezframework.json.Result;
+import com.leesky.ezframework.mybatis.query.QueryFilter;
+import com.leesky.ezframework.query.ParamModel;
+import com.leesky.ezframework.utils.Po2DtoUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.leesky.ezframework.json.Result.success;
+
+/**
+ * ${functionName}Service接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@RequiredArgsConstructor
+@SysLogAction("${tableComment}控制器")
+@RequestMapping(value = "/${classNameFirst}")
+public class ${className}Controller {
+
+
+    private final I${classNameFirst}Service service;
+
+    /**
+    * 通过id查询
+    * @param id 主键ID
+    **/
+    @GetMapping(value = "/queryById/{id}")
+    @SysLogger("通过ID查询${tableComment}")
+    public Result<${className}DTO> queryById(@PathVariable("id") String id) {
+        ${className}Model data = this.service.findOne(id);
+
+        ${className}DTO ret = Po2DtoUtil.convertor(data, ${className}DTO.class);
+
+        return success(ret, false);
+    }
+
+    /**
+    * 列表查询
+    * @param param 前端传参封装
+    **/
+    @PostMapping(value = "/list")
+    @SysLogger("获取所有${tableComment}数据列表")
+    public Result<List<${className}DTO>> list(@RequestBody ParamModel param) {
+
+         QueryFilter<${className}Model> filter = new QueryFilter<>(param);
+         List<${className}Model> data = this.service.findList(filter);
+
+         List<${className}DTO> ret = Po2DtoUtil.convertor(data, ${className}DTO.class);
+
+         return success(ret, false);
+    }
+    /**
+    * 新增
+    * @param dto 接收对象
+    **/
+    @PostMapping("/add")
+    @SysLogger("新增${tableComment}")
+    public Result<?> add(@RequestBody ${className}DTO dto) {
+
+        ${className}Model model = Po2DtoUtil.convertor(dto, ${className}Model.class);
+        this.service.insert(model, false);
+
+        return success();
+    }
+
+    /**
+      * 编辑
+      * @param dto 接收对象
+      */
+     @PostMapping("/edit")
+     @SysLogger("编辑${tableComment}")
+     public Result<?> edit(@RequestBody ${className}DTO dto) {
+
+        ${className}Model model = Po2DtoUtil.convertor(dto, ${className}Model.class);
+         this.service.update(model);
+
+         return success();
+     }
+
+
+     /**
+      * 通过id删除
+      * @param id 主键ID
+      */
+     @DeleteMapping(value = "/delete")
+     @SysLogger("删除${tableComment}")
+     public Result<?> delete(@RequestParam(name = "id") String id) {
+
+         Assert.isTrue(StringUtils.isNotEmpty(id), "主键ID不能为空！");
+
+         // 逻辑删除修改状态
+         UpdateWrapper<${className}> wrapper = new UpdateWrapper<>();
+         wrapper.set("is_del", 1).eq("id", id);
+         this.service.update(wrapper);
+
+         return success();
+     }
+
+
+}

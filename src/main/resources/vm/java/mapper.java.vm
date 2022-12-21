@@ -1,0 +1,32 @@
+package ${packageName}.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+/**
+ * ${functionName}Mapper接口
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Mapper extends BaseMapper<${className}>{
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${className} ${functionName}
+     * @return ${functionName}集合
+     */
+    List<${className}> select${className}List(${className} ${className});
+    /**
+     * 分页查询${functionName}列表
+     * @param page 分页数据
+     * @param entity 实体封装对象
+     */
+    Page<${className}> selectListByPage(Page<${className}> page, @Param("param") ${className} entity);
+
+}

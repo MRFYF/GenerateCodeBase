@@ -1,0 +1,58 @@
+package ${packageName}.service;
+
+import java.io.Serializable;
+import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+/**
+ * ${functionName}Service接口
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${className}Service extends IService<${className}>{
+
+    /**
+     * 查询${functionName}分页列表
+     * @param to to
+     * @return 分页列表
+     */
+    Page<${className}> selectListByPage(${className}To to);
+
+    /**
+     * 根据ID获取详细信息
+     * @param id id
+     * @return 详细信息
+     */
+    AjaxResult getInfo($pkColumn.javaType id);
+
+    /**
+     * 新增${functionName}
+     * @param to to
+     * @return result
+     */
+    AjaxResult add(${className}To to);
+
+    /**
+     * 修改${functionName}
+     * @param to to
+     * @return result
+     */
+    AjaxResult edit(${className}To to);
+
+    /**
+     * 根据ID修改状态
+     * @param id id
+     * @param status 状态值
+     */
+    AjaxResult editStatus($pkColumn.javaType id, Integer status);
+
+    /**
+     * 根据ID逻辑删除
+     * @param id id
+     */
+    AjaxResult delete($pkColumn.javaType id);
+
+
+}
